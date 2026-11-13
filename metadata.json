@@ -1,0 +1,6 @@
+{
+  "name": "Cotonou Syndicat",
+  "description": "Jeu d'action 3D en monde ouvert à Cotonou autour du Monument Amazone et du Boulevard de la Marina.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
