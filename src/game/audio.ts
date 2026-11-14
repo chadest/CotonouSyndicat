@@ -265,7 +265,8 @@ export class SoundEngine {
     if (!this.anthemAudio) {
       this.anthemAudio = new Audio();
       const canPlayMp3 = Boolean(this.anthemAudio.canPlayType('audio/mpeg'));
-      this.anthemAudio.src = canPlayMp3 ? '/aube_nouvelle.mp3' : '/aube_nouvelle.ogg';
+      const base = import.meta.env.BASE_URL;
+      this.anthemAudio.src = canPlayMp3 ? base + 'aube_nouvelle.mp3' : base + 'aube_nouvelle.ogg';
       this.anthemAudio.preload = 'auto';
     }
 

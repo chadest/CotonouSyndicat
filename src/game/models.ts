@@ -160,10 +160,10 @@ export function createAmazoneMonument(textures: CotonouTextures): THREE.Group {
   plaque.position.set(0, 1.48, 5.38);
   group.add(plaque);
 
-  // 2. Load the imported 3D sculpture (/white_mesh.glb) & apply realistic bronze finish
+  // 2. Load the imported 3D sculpture (white_mesh.glb) & apply realistic bronze finish
   const loader = new GLTFLoader();
   loader.load(
-    '/white_mesh.glb',
+    import.meta.env.BASE_URL + 'white_mesh.glb',
     (gltf) => {
       const model = gltf.scene;
 
