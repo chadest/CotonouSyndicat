@@ -51,6 +51,12 @@ export default function App() {
   const [hud, setHud] = useState<HudSnapshot>(INITIAL_HUD);
 
   useEffect(() => {
+    const currentUrl = window.location.origin + window.location.pathname;
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) canonical.href = currentUrl;
+    const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+    if (ogUrl) ogUrl.content = currentUrl;
+
     const container = mountRef.current;
     if (!container) return;
 

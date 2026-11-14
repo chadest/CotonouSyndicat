@@ -1,0 +1,28 @@
+# Cotonou Syndicat
+
+> Jeu d'action 3D en monde ouvert se déroulant à Cotonou (Bénin), autour du Monument Amazone, du Boulevard de la Marina et du Tribunal de Cotonou.
+
+- URL officielle : https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/
+- Aperçu visuel : https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/assets/aistudio/image_af82a75e.png
+- Sitemap : https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/sitemap.xml
+- Plateformes : Navigateur Web (Desktop & Mobile) et APK Android (WebView hors-ligne)
+
+## Présentation
+
+Cotonou Syndicat est une application web 3D interactive développée avec React, TypeScript, Tailwind CSS et Three.js. Le joueur explore Cotonou en libre circulation ou en accomplissant une série de missions scénarisées, conduit des véhicules (voitures, motos zémidjans, véhicules de police), et fait face aux forces de l'ordre jusqu'à comparaître dans une scène complète du Tribunal de Cotonou en cas d'arrestation.
+
+## Fonctionnalités principales
+
+- **Monde ouvert 3D à Cotonou** : Modélisation du Monument Amazone (`white_mesh.glb`), Esplanade de l'Amazone, Boulevard de la Marina et quartiers urbains.
+- **Hymne national du Bénin** : Lecture automatique de *L'Aube Nouvelle* sur l'écran titre, avec arrêt immédiat au lancement de la partie.
+- **Missions & Progression** : 4 missions principales (dont *L'Or de la Marina*), gestion de santé, munitions, argent en FCFA et niveau de recherche (étoiles).
+- **Scène d'audience au Tribunal** : Lorsqu'un joueur est arrêté par la police, transition vers la salle d'audience 3D animée avec juge à la barre, avocats, box de l'accusé et public, avec possibilité de payer la caution ou de recommencer.
+- **Contrôles adaptatifs** : Clavier/souris sur ordinateur et commandes tactiles dédiées sur mobile / Android.
+- **Version Android APK** : Wrapper WebView (`WebViewAssetLoader`) embarquant tous les assets HTML/JS/CSS/3D/audio pour une exécution fluide sans serveur externe.
+
+## Stack technique
+
+- **Frontend** : React 19, TypeScript, Tailwind CSS v4, Vite 8, Lucide Icons, Motion
+- **Moteur 3D** : Three.js (WebGL, GLTFLoader, éclairage et animations temps réel)
+- **Mobile Android** : Kotlin, AndroidX WebKit (`WebViewAssetLoader`), Gradle 8.9
+- **CI/CD** : GitHub Actions pour déploiement GitHub Pages et compilation APK Android
