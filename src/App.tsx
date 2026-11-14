@@ -65,10 +65,6 @@ export default function App() {
     };
   }, []);
 
-  const handleToggleAnthem = useCallback(() => {
-    engineRef.current?.toggleAnthem();
-  }, []);
-
   const handleStart = useCallback(() => {
     engineRef.current?.startGame();
   }, []);
@@ -120,8 +116,6 @@ export default function App() {
           onStart={handleStart}
           muted={hud.muted}
           onToggleMute={handleToggleMute}
-          onToggleAnthem={handleToggleAnthem}
-          anthemPlaying={Boolean(hud.anthemPlaying)}
         />
       )}
 

@@ -253,12 +253,15 @@ export class SoundEngine {
     osc.stop(now + 0.12);
   }
 
+  private anthemDesired = false;
+
   /**
    * Plays the official audio recording of the National Anthem of Benin ("L'Aube Nouvelle")
    * obtained from Wikimedia Commons / Wikipedia (U.S. Navy Band official performance).
+   * Returns true if playback started immediately, false if blocked by browser autoplay policy.
    */
-  public playAnthem(onEnded?: () => void): void {
-    this.unlock();
+  public async playAnthem(onEnded?: () => void): Promise<boolean> {
+    this.anthemDesired = true;
     if (!this.anthemAudio) {
       this.anthemAudio = new Audio();
       const canPlayMp3 = Boolean(this.anthemAudio.canPlayType('audio/mpeg'));
@@ -267,21 +270,29 @@ export class SoundEngine {
     }
 
     this.anthemAudio.onended = () => {
+      this.anthemDesired = false;
       onEnded?.();
     };
 
     this.anthemAudio.volume = this.muted ? 0 : 0.65;
     this.anthemAudio.muted = this.muted;
     this.anthemAudio.currentTime = 0;
-    const p = this.anthemAudio.play();
-    if (p !== undefined) {
-      p.catch((err) => {
-        console.warn('Anthem playback prevented until user interaction:', err);
-      });
+
+    try {
+      await this.anthemAudio.play();
+      if (!this.anthemDesired && this.anthemAudio) {
+        this.anthemAudio.pause();
+        this.anthemAudio.currentTime = 0;
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
     }
   }
 
   public stopAnthem(): void {
+    this.anthemDesired = false;
     if (this.anthemAudio) {
       this.anthemAudio.pause();
       this.anthemAudio.currentTime = 0;

@@ -218,6 +218,7 @@ export class CotonouGameEngine {
   private hitstopTimer = 0;
   private cameraShake = 0;
   private hudEmitAccum = 0;
+  private pendingAnthemAutoplay = false;
 
   // Player state
   private playerRig!: CharacterRig;
@@ -275,6 +276,7 @@ export class CotonouGameEngine {
     this.resetWorldEntities();
     this.emitHud();
     this.startLoop();
+    this.tryAutoplayAnthem();
   }
 
   private detectSoftwareGl(): boolean {
@@ -710,6 +712,7 @@ export class CotonouGameEngine {
   }
 
   public startGame(): void {
+    this.pendingAnthemAutoplay = false;
     this.sound.unlock();
     this.sound.stopAnthem();
     if (this.phase === 'title' || this.phase === 'gameover' || this.phase === 'victory') {
@@ -725,33 +728,13 @@ export class CotonouGameEngine {
     }
   }
 
-  public playAnthem(): void {
-    this.sound.unlock();
-    this.sound.playAnthem(() => {
-      this.emitHud();
+  private tryAutoplayAnthem(): void {
+    if (this.phase !== 'title' || this.disposed) return;
+    void this.sound.playAnthem().then((started) => {
+      if (!started && this.phase === 'title' && !this.disposed) {
+        this.pendingAnthemAutoplay = true;
+      }
     });
-    this.emitHud();
-  }
-
-  public stopAnthem(): void {
-    this.sound.stopAnthem();
-    this.emitHud();
-  }
-
-  public toggleAnthem(): void {
-    if (this.sound.isAnthemPlaying()) {
-      this.sound.stopAnthem();
-    } else {
-      this.sound.unlock();
-      this.sound.playAnthem(() => {
-        this.emitHud();
-      });
-    }
-    this.emitHud();
-  }
-
-  public isAnthemPlaying(): boolean {
-    return this.sound.isAnthemPlaying();
   }
 
   public continueFreeRoam(): void {
@@ -875,12 +858,24 @@ export class CotonouGameEngine {
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
     window.addEventListener('blur', this.onBlur);
+    window.addEventListener('pointerdown', this.onWindowPointerDown);
     const canvas = this.renderer.domElement;
     canvas.addEventListener('pointermove', this.onPointerMove);
     canvas.addEventListener('pointerdown', this.onPointerDown);
     window.addEventListener('pointerup', this.onPointerUp);
     canvas.addEventListener('webglcontextlost', this.onContextLost);
   }
+
+  private onWindowPointerDown = (e: PointerEvent): void => {
+    if (!this.pendingAnthemAutoplay || this.phase !== 'title') return;
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('[data-start-game="true"]')) {
+      this.pendingAnthemAutoplay = false;
+      return;
+    }
+    this.pendingAnthemAutoplay = false;
+    void this.sound.playAnthem();
+  };
 
   private onContextLost = (e: Event): void => {
     e.preventDefault();
@@ -911,10 +906,16 @@ export class CotonouGameEngine {
       }
     } else if ((e.code === 'Enter' || e.code === 'Space') && this.phase === 'title') {
       this.startGame();
-    } else if (e.code === 'KeyM') {
-      this.toggleMute();
-    } else if (e.code === 'KeyC' && this.phase === 'playing') {
-      this.toggleCameraPreset();
+    } else {
+      if (this.pendingAnthemAutoplay && this.phase === 'title') {
+        this.pendingAnthemAutoplay = false;
+        void this.sound.playAnthem();
+      }
+      if (e.code === 'KeyM') {
+        this.toggleMute();
+      } else if (e.code === 'KeyC' && this.phase === 'playing') {
+        this.toggleCameraPreset();
+      }
     }
   };
 
@@ -2104,6 +2105,7 @@ export class CotonouGameEngine {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
     window.removeEventListener('blur', this.onBlur);
+    window.removeEventListener('pointerdown', this.onWindowPointerDown);
     const canvas = this.renderer.domElement;
     canvas.removeEventListener('pointermove', this.onPointerMove);
     canvas.removeEventListener('pointerdown', this.onPointerDown);

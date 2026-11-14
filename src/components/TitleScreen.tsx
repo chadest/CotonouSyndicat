@@ -10,59 +10,25 @@ interface TitleScreenProps {
   onStart: () => void;
   muted: boolean;
   onToggleMute: () => void;
-  onToggleAnthem?: () => void;
-  anthemPlaying?: boolean;
 }
 
 export const TitleScreen: React.FC<TitleScreenProps> = ({
   onStart,
   muted,
   onToggleMute,
-  onToggleAnthem,
-  anthemPlaying,
 }) => {
   return (
     <div className="fixed inset-0 z-20 flex flex-col justify-between p-6 md:p-10 pointer-events-none">
-      {/* Top bar: National anthem audio & sound toggle */}
+      {/* Top bar: Minimal audio toggle on right */}
       <div className="flex justify-end pointer-events-auto">
-        <div className="flex items-center gap-2.5">
-          {onToggleAnthem && (
-            <button
-              type="button"
-              onClick={onToggleAnthem}
-              aria-label={anthemPlaying ? "Arrêter l'Hymne National" : "Écouter l'Hymne National (Wikipédia)"}
-              className={`h-11 px-3.5 flex items-center gap-2 rounded-lg border text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
-                anthemPlaying
-                  ? 'bg-[#1a2330] border-[#eab308] text-[#eab308]'
-                  : 'bg-[#12161d]/90 border-white/15 text-[#f5f2eb] hover:bg-[#1e2430]'
-              }`}
-            >
-              <div className="flex w-4 h-3 rounded-xs overflow-hidden shadow-xs shrink-0">
-                <div className="w-1.5 h-full bg-[#008751]" />
-                <div className="flex flex-col w-2.5 h-full">
-                  <div className="h-1/2 bg-[#fcd116]" />
-                  <div className="h-1/2 bg-[#e8112d]" />
-                </div>
-              </div>
-              <span>{anthemPlaying ? "Hymne en cours..." : "Hymne National (Wikipédia)"}</span>
-              {anthemPlaying && (
-                <span className="flex items-center gap-0.5 ml-1">
-                  <span className="w-1 h-3 bg-[#008751] animate-pulse rounded-full" />
-                  <span className="w-1 h-2 bg-[#fcd116] animate-pulse rounded-full" />
-                  <span className="w-1 h-3 bg-[#e8112d] animate-pulse rounded-full" />
-                </span>
-              )}
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={onToggleMute}
-            aria-label={muted ? 'Activer le son' : 'Couper le son'}
-            className="h-11 w-11 flex items-center justify-center rounded-lg bg-[#12161d]/90 border border-white/15 text-[#f5f2eb] hover:bg-[#1e2430] transition-colors cursor-pointer"
-          >
-            {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={onToggleMute}
+          aria-label={muted ? 'Activer le son' : 'Couper le son'}
+          className="h-11 w-11 flex items-center justify-center rounded-lg bg-[#12161d]/90 border border-white/15 text-[#f5f2eb] hover:bg-[#1e2430] transition-colors cursor-pointer"
+        >
+          {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+        </button>
       </div>
 
       {/* Left-aligned Title Lockup leaving center/right calm for the 3D Statue de l'Amazone */}
@@ -108,6 +74,7 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
         <div className="flex flex-wrap items-center gap-4">
           <button
             type="button"
+            data-start-game="true"
             onClick={onStart}
             className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-lg bg-[#eab308] text-[#11151c] font-display font-bold text-base tracking-wide hover:bg-[#facc15] transition-colors cursor-pointer whitespace-nowrap"
           >
