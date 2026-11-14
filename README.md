@@ -1,6 +1,6 @@
 # Cotonou Syndicat
 
-![Aperçu 3D de Cotonou Syndicat devant le Monument Amazone](public/assets/aistudio/image_af82a75e.png)
+![Aperçu 3D de Cotonou Syndicat devant le Monument Amazone](public/assets/image/image_af82a75e.png)
 
 Jeu d'action 3D en monde ouvert se déroulant à Cotonou (Bénin), autour de l'Esplanade du Monument Amazone, du Boulevard de la Marina et du Tribunal de Cotonou. Développé avec Three.js, React, TypeScript et Tailwind CSS, avec une version Android WebView autonome embarquant tous les assets.
 

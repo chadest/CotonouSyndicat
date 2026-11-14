@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/</loc>
+    <loc>https://chadest.github.io/CotonouSyndicat/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/assets/aistudio/image_af82a75e.png</image:loc>
+      <image:loc>https://chadest.github.io/CotonouSyndicat/assets/image/image_af82a75e.png</image:loc>
       <image:title>Cotonou Syndicat – Monument Amazone 3D</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/llms.txt</loc>
+    <loc>https://chadest.github.io/CotonouSyndicat/llms.txt</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

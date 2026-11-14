@@ -43,22 +43,22 @@ export function createCotonouTextures(maxAnisotropy: number): CotonouTextures {
 
   // 1. Weathered Cotonou coastal asphalt road with lane markings
   const asphaltCanvas = document.createElement('canvas');
-  asphaltCanvas.width = 512;
-  asphaltCanvas.height = 512;
+  asphaltCanvas.width = 256;
+  asphaltCanvas.height = 256;
   const actx = asphaltCanvas.getContext('2d')!;
   actx.fillStyle = '#25282e';
-  actx.fillRect(0, 0, 512, 512);
-  for (let i = 0; i < 4500; i++) {
+  actx.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 1200; i++) {
     const v = 28 + Math.floor(Math.random() * 24);
     actx.fillStyle = `rgb(${v},${v + 1},${v + 3})`;
-    actx.fillRect(Math.random() * 512, Math.random() * 512, 2, 2);
+    actx.fillRect(Math.random() * 256, Math.random() * 256, 2, 2);
   }
   actx.fillStyle = 'rgba(182, 145, 98, 0.16)';
-  actx.fillRect(0, 0, 26, 512);
-  actx.fillRect(486, 0, 26, 512);
+  actx.fillRect(0, 0, 13, 256);
+  actx.fillRect(243, 0, 13, 256);
   actx.fillStyle = '#e5b84b';
-  for (let y = 16; y < 512; y += 64) {
-    actx.fillRect(250, y, 12, 34);
+  for (let y = 8; y < 256; y += 32) {
+    actx.fillRect(125, y, 6, 17);
   }
   const asphalt = finalizeColorTexture(asphaltCanvas, maxAnisotropy, 1, 1);
   created.push(asphalt);
@@ -90,7 +90,7 @@ export function createCotonouTextures(maxAnisotropy: number): CotonouTextures {
   const sctx = sandCanvas.getContext('2d')!;
   sctx.fillStyle = '#d7b986';
   sctx.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < 3200; i++) {
+  for (let i = 0; i < 1200; i++) {
     const r = 195 + Math.floor(Math.random() * 35);
     const g = 162 + Math.floor(Math.random() * 35);
     const b = 110 + Math.floor(Math.random() * 30);
@@ -149,7 +149,7 @@ export function createCotonouTextures(maxAnisotropy: number): CotonouTextures {
   const bctx = bronzeCanvas.getContext('2d')!;
   bctx.fillStyle = '#926f46';
   bctx.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < 3600; i++) {
+  for (let i = 0; i < 1400; i++) {
     const warm = i % 3 !== 0;
     bctx.fillStyle = warm ? 'rgba(186, 146, 92, 0.22)' : 'rgba(66, 52, 38, 0.22)';
     bctx.fillRect(Math.random() * 256, Math.random() * 256, 3, 5);
@@ -164,7 +164,7 @@ export function createCotonouTextures(maxAnisotropy: number): CotonouTextures {
   const rctx = rockCanvas.getContext('2d')!;
   rctx.fillStyle = '#6c5339';
   rctx.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < 4200; i++) {
+  for (let i = 0; i < 1500; i++) {
     rctx.fillStyle = i % 2 === 0 ? 'rgba(148, 118, 82, 0.24)' : 'rgba(42, 32, 24, 0.28)';
     rctx.fillRect(Math.random() * 256, Math.random() * 256, 5, 3);
   }
@@ -178,7 +178,7 @@ export function createCotonouTextures(maxAnisotropy: number): CotonouTextures {
   const gctx = graniteCanvas.getContext('2d')!;
   gctx.fillStyle = '#7e766c';
   gctx.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < 3000; i++) {
+  for (let i = 0; i < 1200; i++) {
     const shade = 95 + Math.floor(Math.random() * 55);
     gctx.fillStyle = `rgb(${shade},${shade - 4},${shade - 9})`;
     gctx.fillRect(Math.random() * 256, Math.random() * 256, 2, 2);

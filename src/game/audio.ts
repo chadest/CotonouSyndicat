@@ -262,28 +262,59 @@ export class SoundEngine {
    */
   public async playAnthem(onEnded?: () => void): Promise<boolean> {
     this.anthemDesired = true;
+    const base = import.meta.env.BASE_URL;
     if (!this.anthemAudio) {
       this.anthemAudio = new Audio();
-      const canPlayMp3 = Boolean(this.anthemAudio.canPlayType('audio/mpeg'));
-      const base = import.meta.env.BASE_URL;
-      this.anthemAudio.src = canPlayMp3 ? base + 'aube_nouvelle.mp3' : base + 'aube_nouvelle.ogg';
+      this.anthemAudio.setAttribute('playsinline', 'true');
       this.anthemAudio.preload = 'auto';
+      const canPlayMp3 = Boolean(this.anthemAudio.canPlayType('audio/mpeg'));
+      const primarySrc = canPlayMp3 ? base + 'aube_nouvelle.mp3' : base + 'aube_nouvelle.ogg';
+      const fallbackSrc = canPlayMp3 ? base + 'aube_nouvelle.ogg' : base + 'aube_nouvelle.mp3';
+      this.anthemAudio.src = primarySrc;
+      this.anthemAudio.onerror = () => {
+        if (this.anthemAudio && !this.anthemAudio.src.endsWith(fallbackSrc)) {
+          this.anthemAudio.src = fallbackSrc;
+          if (this.anthemDesired) {
+            void this.anthemAudio.play().catch(() => {});
+          }
+        }
+      };
     }
 
-    this.anthemAudio.onended = () => {
-      this.anthemDesired = false;
-      onEnded?.();
-    };
+    if (onEnded) {
+      this.anthemAudio.onended = () => {
+        this.anthemDesired = false;
+        onEnded();
+      };
+    } else if (!this.anthemAudio.onended) {
+      this.anthemAudio.onended = () => {
+        this.anthemDesired = false;
+      };
+    }
 
     this.anthemAudio.volume = this.muted ? 0 : 0.65;
     this.anthemAudio.muted = this.muted;
-    this.anthemAudio.currentTime = 0;
+
+    if (!this.anthemAudio.paused) {
+      return true;
+    }
+
+    // Only seek to 0 when metadata is already loaded to avoid InvalidStateError on mobile Safari
+    if (this.anthemAudio.readyState > 0 && this.anthemAudio.currentTime > 0) {
+      try {
+        this.anthemAudio.currentTime = 0;
+      } catch {
+        // Ignore seek errors on unbuffered mobile streams
+      }
+    }
 
     try {
       await this.anthemAudio.play();
       if (!this.anthemDesired && this.anthemAudio) {
         this.anthemAudio.pause();
-        this.anthemAudio.currentTime = 0;
+        if (this.anthemAudio.readyState > 0) {
+          this.anthemAudio.currentTime = 0;
+        }
         return false;
       }
       return true;
@@ -296,7 +327,13 @@ export class SoundEngine {
     this.anthemDesired = false;
     if (this.anthemAudio) {
       this.anthemAudio.pause();
-      this.anthemAudio.currentTime = 0;
+      if (this.anthemAudio.readyState > 0) {
+        try {
+          this.anthemAudio.currentTime = 0;
+        } catch {
+          // Ignore seek errors during teardown
+        }
+      }
     }
   }
 

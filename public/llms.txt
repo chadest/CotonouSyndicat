@@ -2,9 +2,9 @@
 
 > Jeu d'action 3D en monde ouvert se déroulant à Cotonou (Bénin), autour du Monument Amazone, du Boulevard de la Marina et du Tribunal de Cotonou.
 
-- URL officielle : https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/
-- Aperçu visuel : https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/assets/aistudio/image_af82a75e.png
-- Sitemap : https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/sitemap.xml
+- URL officielle : https://chadest.github.io/CotonouSyndicat/
+- Aperçu visuel : https://chadest.github.io/CotonouSyndicat/assets/image/image_af82a75e.png
+- Sitemap : https://chadest.github.io/CotonouSyndicat/sitemap.xml
 - Plateformes : Navigateur Web (Desktop & Mobile) et APK Android (WebView hors-ligne)
 
 ## Présentation

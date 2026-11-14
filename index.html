@@ -2,7 +2,12 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="screen-orientation" content="landscape" />
+    <meta name="x5-orientation" content="landscape" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="./manifest.webmanifest" />
     <title>Cotonou Syndicat – Jeu d'Action 3D en Monde Ouvert</title>
     <meta
       name="description"
@@ -15,8 +20,9 @@
     <meta name="author" content="Cotonou Syndicat" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#0e1116" />
-    <link rel="canonical" href="https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/" />
-    <link rel="icon" type="image/png" href="./assets/aistudio/image_af82a75e.png" />
+    <link rel="canonical" href="https://chadest.github.io/CotonouSyndicat/" />
+    <link rel="icon" type="image/png" href="./assets/image/image_af82a75e.png" />
+    <link rel="preload" href="./white_mesh.glb" as="fetch" crossorigin="anonymous" />
 
     <!-- OpenGraph / Aperçu réseaux sociaux -->
     <meta property="og:type" content="website" />
@@ -27,10 +33,10 @@
       property="og:description"
       content="Explorez Cotonou en 3D autour du Monument Amazone, accomplissez vos missions sur le Boulevard de la Marina et affrontez le tribunal."
     />
-    <meta property="og:url" content="https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/" />
+    <meta property="og:url" content="https://chadest.github.io/CotonouSyndicat/" />
     <meta
       property="og:image"
-      content="https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/assets/aistudio/image_af82a75e.png"
+      content="https://chadest.github.io/CotonouSyndicat/assets/image/image_af82a75e.png"
     />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content="Aperçu 3D de Cotonou Syndicat devant le Monument Amazone à Cotonou" />
@@ -44,7 +50,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/assets/aistudio/image_af82a75e.png"
+      content="https://chadest.github.io/CotonouSyndicat/assets/image/image_af82a75e.png"
     />
     <meta name="twitter:image:alt" content="Aperçu 3D de Cotonou Syndicat devant le Monument Amazone à Cotonou" />
 
@@ -55,8 +61,8 @@
         "@type": "VideoGame",
         "name": "Cotonou Syndicat",
         "description": "Explorez Cotonou en 3D autour du Monument Amazone, accomplissez vos missions sur le Boulevard de la Marina et affrontez le tribunal.",
-        "url": "https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/",
-        "image": "https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app/assets/aistudio/image_af82a75e.png",
+        "url": "https://chadest.github.io/CotonouSyndicat/",
+        "image": "https://chadest.github.io/CotonouSyndicat/assets/image/image_af82a75e.png",
         "genre": ["Action", "Monde ouvert"],
         "gamePlatform": ["Web Browser", "Android"],
         "applicationCategory": "GameApplication",
@@ -75,7 +81,15 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
   <body class="bg-[#0e1116] text-[#f5f2eb] overflow-hidden select-none">
     <div id="root"></div>

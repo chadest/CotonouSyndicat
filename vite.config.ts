@@ -8,16 +8,23 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname, '.'),
       },
     },
     build: {
       outDir: 'contonougame',
+      target: 'es2020',
+      chunkSizeWarningLimit: 900,
       rollupOptions: {
         output: {
           entryFileNames: 'assets/contonougame-[hash].js',
           chunkFileNames: 'assets/contonougame-[name]-[hash].js',
           assetFileNames: 'assets/contonougame-[name]-[hash][extname]',
+          manualChunks(id) {
+            if (id.includes('node_modules/three')) return 'three';
+            if (id.includes('node_modules/react')) return 'react';
+            if (id.includes('node_modules/lucide-react')) return 'icons';
+          },
         },
       },
     },

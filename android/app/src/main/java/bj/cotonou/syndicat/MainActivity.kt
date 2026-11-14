@@ -1,7 +1,10 @@
 package bj.cotonou.syndicat
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         enableFullscreenMode()
 
         val assetLoader = WebViewAssetLoader.Builder()
@@ -71,6 +75,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun enableFullscreenMode() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE

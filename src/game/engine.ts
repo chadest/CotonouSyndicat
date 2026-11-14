@@ -292,6 +292,9 @@ export class CotonouGameEngine {
 
   private initScene(): void {
     this.isSoftwareGl = this.detectSoftwareGl();
+    const isMobile =
+      typeof window !== 'undefined' &&
+      (window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0);
 
     const width = Math.max(1, this.container.clientWidth);
     const height = Math.max(1, this.container.clientHeight);
@@ -301,7 +304,9 @@ export class CotonouGameEngine {
       powerPreference: 'high-performance',
     });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(this.isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(
+      this.isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2),
+    );
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.08;
@@ -330,7 +335,8 @@ export class CotonouGameEngine {
     const sun = new THREE.DirectionalLight(0xffe6bd, 2.4);
     sun.position.set(58, 72, 68);
     sun.castShadow = !this.isSoftwareGl;
-    sun.shadow.mapSize.set(2048, 2048);
+    const shadowRes = isMobile ? 1024 : 2048;
+    sun.shadow.mapSize.set(shadowRes, shadowRes);
     sun.shadow.camera.near = 10;
     sun.shadow.camera.far = 260;
     const d = 105;
@@ -825,7 +831,12 @@ export class CotonouGameEngine {
 
   public toggleMute(): void {
     this.sound.unlock();
-    this.sound.setMuted(!this.sound.isMuted());
+    const nextMuted = !this.sound.isMuted();
+    this.sound.setMuted(nextMuted);
+    if (!nextMuted && this.phase === 'title' && !this.sound.isAnthemPlaying()) {
+      this.pendingAnthemAutoplay = false;
+      void this.sound.playAnthem();
+    }
     this.emitHud();
   }
 
@@ -858,7 +869,8 @@ export class CotonouGameEngine {
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
     window.addEventListener('blur', this.onBlur);
-    window.addEventListener('pointerdown', this.onWindowPointerDown);
+    window.addEventListener('click', this.onWindowAnthemGesture, true);
+    window.addEventListener('touchend', this.onWindowAnthemGesture, true);
     const canvas = this.renderer.domElement;
     canvas.addEventListener('pointermove', this.onPointerMove);
     canvas.addEventListener('pointerdown', this.onPointerDown);
@@ -866,15 +878,19 @@ export class CotonouGameEngine {
     canvas.addEventListener('webglcontextlost', this.onContextLost);
   }
 
-  private onWindowPointerDown = (e: PointerEvent): void => {
-    if (!this.pendingAnthemAutoplay || this.phase !== 'title') return;
+  private onWindowAnthemGesture = (e: Event): void => {
+    if (!this.pendingAnthemAutoplay || this.phase !== 'title' || this.disposed) return;
     const target = e.target as HTMLElement | null;
-    if (target?.closest('[data-start-game="true"]')) {
+    if (target?.closest('[data-start-game="true"]') || target?.closest('button[aria-label*="son"]')) {
       this.pendingAnthemAutoplay = false;
       return;
     }
-    this.pendingAnthemAutoplay = false;
-    void this.sound.playAnthem();
+    this.sound.unlock();
+    void this.sound.playAnthem().then((started) => {
+      if (started) {
+        this.pendingAnthemAutoplay = false;
+      }
+    });
   };
 
   private onContextLost = (e: Event): void => {
@@ -883,12 +899,16 @@ export class CotonouGameEngine {
 
   private onResize = (): void => {
     if (this.disposed) return;
+    const isMobile =
+      window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
     const w = Math.max(1, this.container.clientWidth);
     const h = Math.max(1, this.container.clientHeight);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(w, h);
-    this.renderer.setPixelRatio(this.isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(
+      this.isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2),
+    );
   };
 
   private onKeyDown = (e: KeyboardEvent): void => {
@@ -2105,7 +2125,8 @@ export class CotonouGameEngine {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
     window.removeEventListener('blur', this.onBlur);
-    window.removeEventListener('pointerdown', this.onWindowPointerDown);
+    window.removeEventListener('click', this.onWindowAnthemGesture, true);
+    window.removeEventListener('touchend', this.onWindowAnthemGesture, true);
     const canvas = this.renderer.domElement;
     canvas.removeEventListener('pointermove', this.onPointerMove);
     canvas.removeEventListener('pointerdown', this.onPointerDown);

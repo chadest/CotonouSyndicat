@@ -38,7 +38,7 @@ rm -rf "$ASSETS_DIR"
 mkdir -p "$ASSETS_DIR"
 cp -R "$WEB_OUT_DIR/." "$ASSETS_DIR/"
 # Exclure les images de référence non utilisées au runtime pour alléger l'APK
-rm -rf "$ASSETS_DIR/assets/aistudio"
+rm -rf "$ASSETS_DIR/assets/aistudio" "$ASSETS_DIR/assets/image"
 
 echo "    Assets imbriqués avec succès dans : $ASSETS_DIR"
 

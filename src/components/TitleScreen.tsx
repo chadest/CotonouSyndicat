@@ -18,7 +18,7 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
   onToggleMute,
 }) => {
   return (
-    <div className="fixed inset-0 z-20 flex flex-col justify-between p-6 md:p-10 pointer-events-none">
+    <div className="fixed inset-0 z-20 flex flex-col justify-between p-4 sm:p-6 md:p-10 pointer-events-none">
       {/* Top bar: Minimal audio toggle on right */}
       <div className="flex justify-end pointer-events-auto">
         <button
@@ -32,11 +32,11 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
       </div>
 
       {/* Left-aligned Title Lockup leaving center/right calm for the 3D Statue de l'Amazone */}
-      <div className="max-w-xl bg-[#11151c]/88 border border-white/15 rounded-xl p-6 md:p-8 pointer-events-auto">
+      <div className="max-w-md md:max-w-xl bg-[#11151c]/88 border border-white/15 rounded-xl p-4 sm:p-6 md:p-8 pointer-events-auto">
         {/* Bespoke Inline SVG Title Lockup */}
         <svg
           viewBox="0 0 420 92"
-          className="w-full max-w-[380px] h-auto mb-5"
+          className="w-full max-w-[250px] sm:max-w-[340px] md:max-w-[380px] h-auto mb-3 sm:mb-5"
           role="img"
           aria-label="Cotonou Syndicat"
         >
