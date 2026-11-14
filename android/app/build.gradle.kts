@@ -3,6 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+base {
+    archivesName.set("contonougame")
+}
+
 android {
     namespace = "bj.cotonou.syndicat"
     compileSdk = 35

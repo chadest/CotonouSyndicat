@@ -83,13 +83,7 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
           </button>
         </div>
       </div>
-
-      {/* Single flat control-hint line at bottom */}
-      <div className="flex justify-center">
-        <div className="px-4 py-2 rounded-lg bg-[#11151c]/88 border border-white/12 text-xs md:text-sm text-[#d6d0c4] tracking-wide text-center">
-          ZQSD / Flèches Déplacer · Clic / Espace Tirer · F / E Véhicule · C Caméra Intérieure · Échap Pause
-        </div>
-      </div>
+     
     </div>
   );
 };

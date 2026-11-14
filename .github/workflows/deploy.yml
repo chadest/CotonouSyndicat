@@ -53,7 +53,7 @@ jobs:
           PAGES_URL="${{ steps.pages.outputs.origin }}${{ steps.pages.outputs.base_path }}"
           PAGES_URL="${PAGES_URL%/}"
           DEFAULT_URL="https://ais-pre-wdfxfb4v4l4bbpn2nfxkkw-137472231057.europe-west2.run.app"
-          for file in dist/index.html dist/robots.txt dist/sitemap.xml dist/llms.txt; do
+          for file in contonougame/index.html contonougame/robots.txt contonougame/sitemap.xml contonougame/llms.txt; do
             if [ -f "$file" ]; then
               sed -i "s|$DEFAULT_URL|$PAGES_URL|g" "$file"
             fi
@@ -62,7 +62,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./contonougame
 
   deploy:
     name: Deploy

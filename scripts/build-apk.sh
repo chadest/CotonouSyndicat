@@ -7,9 +7,10 @@ set -euo pipefail
 # 3. Compiles the Android WebView APK via Gradle
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+WEB_OUT_DIR="$ROOT_DIR/contonougame"
 ANDROID_DIR="$ROOT_DIR/android"
 ASSETS_DIR="$ANDROID_DIR/app/src/main/assets"
-OUTPUT_DIR="$ROOT_DIR/build"
+OUTPUT_DIR="$ROOT_DIR/contonougame"
 
 MODE="debug"
 ASSETS_ONLY=false
@@ -25,7 +26,7 @@ for arg in "$@"; do
   esac
 done
 
-echo "==> [1/3] Build de l'application Web (Vite)..."
+echo "==> [1/3] Build de l'application Web (Vite -> contonougame/)..."
 cd "$ROOT_DIR"
 if [ ! -d "$ROOT_DIR/node_modules" ]; then
   npm ci
@@ -35,7 +36,7 @@ npm run build -- --base="./"
 echo "==> [2/3] Imbrication des assets HTML/3D/Audio dans android/app/src/main/assets..."
 rm -rf "$ASSETS_DIR"
 mkdir -p "$ASSETS_DIR"
-cp -R "$ROOT_DIR/dist/." "$ASSETS_DIR/"
+cp -R "$WEB_OUT_DIR/." "$ASSETS_DIR/"
 # Exclure les images de référence non utilisées au runtime pour alléger l'APK
 rm -rf "$ASSETS_DIR/assets/aistudio"
 
@@ -70,10 +71,10 @@ fi
 mkdir -p "$OUTPUT_DIR"
 if [ "$MODE" = "release" ]; then
   "$GRADLE_CMD" assembleRelease --no-daemon
-  cp "$ANDROID_DIR/app/build/outputs/apk/release/app-release.apk" "$OUTPUT_DIR/CotonouSyndicat-release.apk"
-  echo "==> APK généré : $OUTPUT_DIR/CotonouSyndicat-release.apk"
+  cp "$ANDROID_DIR/app/build/outputs/apk/release/contonougame-release.apk" "$OUTPUT_DIR/contonougame.apk"
+  echo "==> APK généré : $OUTPUT_DIR/contonougame.apk"
 else
   "$GRADLE_CMD" assembleDebug --no-daemon
-  cp "$ANDROID_DIR/app/build/outputs/apk/debug/app-debug.apk" "$OUTPUT_DIR/CotonouSyndicat-debug.apk"
-  echo "==> APK généré : $OUTPUT_DIR/CotonouSyndicat-debug.apk"
+  cp "$ANDROID_DIR/app/build/outputs/apk/debug/contonougame-debug.apk" "$OUTPUT_DIR/contonougame.apk"
+  echo "==> APK généré : $OUTPUT_DIR/contonougame.apk"
 fi
